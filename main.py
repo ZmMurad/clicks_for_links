@@ -1,9 +1,11 @@
 import requests
-from settings import *
-from pprint import pprint
+from dotenv import load_dotenv
 from urllib.parse import urlparse
+import os
+load_dotenv()
 
-
+TOKEN=os.environ['TOKEN']
+TOKEN={"Authorization":f"Bearer {TOKEN}"}
 user_url=urlparse(input())
 host="https://api-ssl.bitly.com/v4/"
 
@@ -38,13 +40,19 @@ def is_bitlink(url):
         return True
     return False
 
-if is_bitlink(user_url):
-    try:
-        print('Битлинк количество',count_clicks (TOKEN, user_url.geturl()))
-    except Exception as error:
-        print(f"Вы получили ошибку - {error}")
-else:
-    try:
-        print('Битлинк',shorten_link(TOKEN, user_url.geturl()) )
-    except Exception as error:
-        print(f"Вы получили ошибку - {error}")
+
+def main():
+    if is_bitlink(user_url):
+        try:
+            print('Битлинк количество',count_clicks (TOKEN, user_url.geturl()))
+        except Exception as error:
+            print(f"Вы получили ошибку - {error}")
+    else:
+        try:
+            print('Битлинк',shorten_link(TOKEN, user_url.geturl()) )
+        except Exception as error:
+            print(f"Вы получили ошибку - {error}")
+
+
+if __name__=="__main__":
+    main()
